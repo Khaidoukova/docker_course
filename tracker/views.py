@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from tracker.models import Habit
+from tracker.serializers import HabitSerializer
+
+
+class HabitListAPIView(generics.ListAPIView):
+    queryset = Habit.objects.all()
+    serializer_class = HabitSerializer
+
+
