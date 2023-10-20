@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from users.models import User
 
@@ -6,7 +7,7 @@ from users.models import User
 class Habit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, )
     location = models.CharField(max_length=50, null=True, blank=True, verbose_name='Место')
-    time = models.TimeField(auto_now_add=True, null=True, blank=True, verbose_name='Время')
+    time = models.TimeField(default=timezone.now, null=True, blank=True, verbose_name='Время')
     action = models.CharField(max_length=200, null=True, blank=True, verbose_name='Действие')
     is_pleasant = models.BooleanField(default=False, null=True, blank=True, verbose_name='Признак приятной привычки')
     connected_habit = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True,
