@@ -120,6 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
 
@@ -152,8 +153,9 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-],
-    }
+    ],
+                }
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
@@ -165,7 +167,7 @@ CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 
 # Флаг отслеживания выполнения задач
-CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TIMEZONE = "Asia/Yekaterinburg"
 
 # Флаг отслеживания выполнения задач
 CELERY_TASK_TRACK_STARTED = True
@@ -186,9 +188,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com", #  Замените на адрес вашего фронтенд-сервера
-    # и добавьте адрес бэкенд-сервера
-]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", ]
 
 CORS_ALLOW_ALL_ORIGINS = False

@@ -10,13 +10,19 @@ from tracker.serializers import HabitSerializer
 class HabitListAPIView(generics.ListAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 
 class HabitCreateAPIView(generics.CreateAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+
+        new_habit = serializer.save()
+        new_habit.user = self.request.user
+        new_habit.save()
 
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):

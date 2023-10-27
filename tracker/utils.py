@@ -4,9 +4,16 @@ import json
 from datetime import datetime, date, timedelta
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 
-def tg_get_updates():
-    response = requests.get(f'https://api.telegram.org/bot{settings.Telegram_bot_API}/getUpdates')
-    return response.json()
+from users.models import User
+
+
+def tg_get_updates(offset=None):
+    params = {}
+    if offset is not None:
+        params = {'offset': offset}
+    response = requests.get(f'https://api.telegram.org/bot{settings.Telegram_bot_API}/getUpdates', params=params)
+    data = response.json()
+    User.chat_id = data["result"][0]["message"]["chat"]["id"]
 
 
 def tg_send_message(chat_id, text):
@@ -19,8 +26,7 @@ def set_schedule(frequency, pk, time):
 
     schedule, created = IntervalSchedule.objects.get_or_create(
          every=frequency,
-         period=IntervalSchedule.DAYS,
-     )
+         period=IntervalSchedule.DAYS,)
     return PeriodicTask.objects.create(
         interval=schedule,
         name=f'{pk}',

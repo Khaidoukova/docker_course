@@ -26,10 +26,3 @@ class Habit(models.Model):
     class Meta:
         verbose_name = 'Привычка'
         verbose_name_plural = 'Привычки'
-
-
-
-
-
-
-
