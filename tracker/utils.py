@@ -22,16 +22,3 @@ def tg_send_message(chat_id, text):
     return
 
 
-def set_schedule(frequency, pk, time):
-
-    schedule, created = IntervalSchedule.objects.get_or_create(
-         every=frequency,
-         period=IntervalSchedule.DAYS,)
-    return PeriodicTask.objects.create(
-        interval=schedule,
-        name=f'{pk}',
-        task='tracker.tasks.habits_to_telegram',
-        start_time=datetime.combine(date.today(), time),
-        args=json.dumps({}),
-        kwargs=json.dumps({'pk': pk})
-    )

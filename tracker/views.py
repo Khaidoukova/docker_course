@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+
+from tracker.paginators import HabitsPagination
 from tracker.permissions import IsOwner, ReadOnly
 
 from tracker.models import Habit
@@ -17,6 +19,7 @@ class HabitCreateAPIView(generics.CreateAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = HabitsPagination
 
     def perform_create(self, serializer):
 
@@ -47,3 +50,4 @@ class PublicHabitsListAPIView(generics.ListAPIView):
     queryset = Habit.objects.filter(public=True)
     serializer_class = HabitSerializer
     permission_classes = [ReadOnly]
+    pagination_class = HabitsPagination
