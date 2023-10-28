@@ -1,9 +1,5 @@
 import requests
 from django.conf import settings
-import json
-from datetime import datetime, date, timedelta
-from django_celery_beat.models import PeriodicTask, IntervalSchedule
-
 from users.models import User
 
 
