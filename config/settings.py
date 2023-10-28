@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +40,13 @@ INSTALLED_APPS = [
 
     'tracker',
     'users',
+
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'django_celery_beat',
+    'corsheaders',
+
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -111,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
 
@@ -123,6 +132,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -131,3 +143,51 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/users/'
+
+Telegram_bot_API = '6842541820:AAEZwV3FAuBevUqGtNU3frLTFtl3pXDO5x0'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+                }
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+}
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+# Флаг отслеживания выполнения задач
+CELERY_TIMEZONE = "Asia/Yekaterinburg"
+
+# Флаг отслеживания выполнения задач
+CELERY_TASK_TRACK_STARTED = True
+
+# Максимальное время на выполнение задачи
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+# Настройки для Celery
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'tracker.tasks.habits_to_telegram',  # Путь к задаче
+        'schedule': timedelta(minutes=1),  # Расписание выполнения задачи (например, каждые 10 минут)
+    },
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+]
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", ]
+
+CORS_ALLOW_ALL_ORIGINS = False
