@@ -13,4 +13,4 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 
-app.conf.beat_schedule = {'add-every-60-seconds': {'task': 'habit.tasks.habits_notification', 'schedule': 60}, }
+app.conf.beat_schedule = {'add-every-60-seconds': {'task': 'tracker.tasks.habits_to_telegram', 'schedule': 60}, }

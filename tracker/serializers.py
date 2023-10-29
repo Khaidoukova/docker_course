@@ -8,8 +8,8 @@ class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = '__all__'
-        validators = [
-            ConnectedHabitOrRewardValidator('connected_habit', 'reward'),
-            TimeLimitValidator('duration'),
-            FrequencyValidation('frequency')
-                      ]
+        #validators = [
+        #    ConnectedHabitOrRewardValidator('connected_habit', 'reward'),
+        #    TimeLimitValidator('duration'),
+        #    FrequencyValidation('frequency')
+        #              ]

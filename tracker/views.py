@@ -7,6 +7,7 @@ from tracker.permissions import IsOwner, ReadOnly
 
 from tracker.models import Habit
 from tracker.serializers import HabitSerializer
+from tracker.tasks import habits_to_telegram
 
 
 class HabitListAPIView(generics.ListAPIView):
