@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta
 
 import requests
@@ -20,11 +21,13 @@ def habits_to_telegram():
         action = habit.action
         location = habit.location
         frequency = habit.frequency
-        reminder_date = habit.last_reminder_date.date() + timedelta(days=frequency)
+        reminder_date = habit.next_reminder_date
         reminder_time = habit.time
         chat_id = habit.user.chat_id
+        print(reminder_time, reminder_date)
+
         if reminder_date <= now_date:
-            if reminder_time == now_time:
+            if reminder_time <= now_time:
                 #tg_send_message(chat_id, f'Напоминание: нужно {action} в {location} в {reminder_time}')
                 url = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
                 text = f'Напоминание: нужно {action} в {location} в {reminder_time}'
@@ -32,7 +35,7 @@ def habits_to_telegram():
                 response = requests.get(url, params=params)
                 print(f'Сообщение отправлено: {response.json()}')
 
-            habit.last_reminder_date = now_date
+            habit.next_reminder_date = now_date + timedelta(days=frequency)
             habit.save()
 
 #@shared_task
