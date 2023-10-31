@@ -1,19 +1,15 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-
 from tracker.paginators import HabitsPagination
 from tracker.permissions import IsOwner, ReadOnly
-
 from tracker.models import Habit
 from tracker.serializers import HabitSerializer
-from tracker.tasks import habits_to_telegram
 
 
 class HabitListAPIView(generics.ListAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class HabitCreateAPIView(generics.CreateAPIView):
