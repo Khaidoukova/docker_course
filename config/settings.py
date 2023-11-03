@@ -85,9 +85,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tracker',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '320670',
+        'PASSWORD': 'mysecretpassword',
+        'HOST': 'db'
 
     }
 }
